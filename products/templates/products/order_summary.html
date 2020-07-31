@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main>
+    <div class="container">
+
+    <div class="table-responsive text-nowrap">
+    <h2>Order Summary</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Room-Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for orderr in object.all %}
+
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ orderr.product.roomtype }}</td>
+            <td>{{ orderr.product.price }}</td>
+            <td>
+                <a href="{% url 'remove-single-item-from-cart' orderr.product.id %}"><kbd>-</kbd></a>
+                {{ orderr.quantity }}
+                <a href="{% url 'add-to-cart' orderr.product.id %}"><kbd>+</kbd></a>
+            </td>
+            <td>
+
+
+
+                ${{ orderr.get_final_price }}&nbsp;
+
+            <a style='color: red;' href="{% url 'remove-from-cart' orderr.product.id %}">
+              <kbd>BIN</kbd>
+            </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan='5'>Your cart is empty</td>
+        </tr>
+        <tr>
+            <td colspan="5">
+            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% if object.get_final_price %}
+        <tr>
+            <td colspan="4"><b>Order Total</b></td>
+            <td><b>${{ object.get_final_price }}</b></td>
+        </tr>
+        <tr>
+            <td colspan="5">
+            <!-- <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a> -->
+            <a class='btn btn-warning float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    </div>
+
+    </div>
+  </main>
+
+{% endblock %}

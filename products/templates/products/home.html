@@ -1,0 +1,81 @@
+{% extends 'base.html'%}
+
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+<div class="container">
+  <div class="align-self-center ml-6">
+<form class="form-inline my-2" action="{% url 'search' %}" method="GET">
+  {% csrf_token %}
+  <input
+    class="form-control"
+    type="text"
+    placeholder="FIND ROOMS...."
+    name="search_term"
+  />
+   &nbsp; <button class="btn btn-success" type="submit">SUBMIT</button>
+   </form>
+</div>
+</div>
+{% for product in products.all %}
+<div class="jumbotron">
+  <div class="container">
+
+<div class="row">
+  <div class="col-4 col-sm-4 col-md-4"  onclick="window.location='{% url 'detail' product.id %}';" style="cursor: pointer;">
+    <img src="{{product.image.url}}" class="img-fluid" width="140" height="140"/>
+  </div>
+  <div class="col-8 col-sm-6 col-md-6"  onclick="window.location='{% url 'detail' product.id %}';" style="cursor: pointer;">
+    <strong><strong/><br/>
+        Price:  {{product.price}}<br/>
+      <i>{{product.roomtype}}<i/><br/>
+      <kbd>rooms available count</kbd><br/>
+        {% for item in availables %}
+
+    {% ifequal item.product product %}
+
+     <kbd>{{item.rooms_available}}</kbd>
+
+  {% endifequal %}
+{% endfor %}
+<kbd>remaining</kbd>
+
+    </div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-8 offset-1 col-sm-8 col-md-8">
+    <a href="javascript:{document.getElementById('upvote{{product.id}}').submit()}"><button class="btn btn-secondary">  LIKE&nbsp&nbsp({{product.votes_total}})</button></a>
+</div>
+
+
+<form id='upvote{{ product.id }}' method="POST" action="{% url 'upvote' product.id %}">
+{% csrf_token %}
+<input type="hidden">
+</form>
+{% if user.is_admin %}
+<p class="text-center text-light">
+<a class="btn btn-primary" href="{% url 'update' product.id %}"><i class="far fa-edit"></i>&nbsp; Update</a>
+</p>
+<span></span>
+<p class="text-center text-light">
+<a class="btn btn-primary" href="{% url 'delete' product.id %}"><i class="far fa-edit"></i>&nbsp; Delete</a>
+</p>
+{% else %}
+<a href="{% url 'add-to-cart' product.id %}"><button class="btn btn-warning">
+Book a Hotel Room
+</button>
+</a>
+{% endif %}
+
+</div>
+</div>
+{% endfor %}
+
+{% endblock%}

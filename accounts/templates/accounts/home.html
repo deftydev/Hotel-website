@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome <span class="icon-emo-happy"></span></h2>
+  <p class="lead">
+    If you already have an account, go ahead and <a href="{% url 'login' %}">log in</a>. If you are new , get started
+    by creating a <a href="{% url 'customer_signup' %}"><button class="btn btn-success">customer account</button></a>
+    <a href="{% url 'admin_signup' %}"><button class="btn btn-success">ADMIN ACCOUNT</button></a>
+    <div class="lead">admin and customer signup both are given here just to show the <kbd>functionality</kbd> </div>
+  </p>
+  <hr>
+
+
+{% endblock %}

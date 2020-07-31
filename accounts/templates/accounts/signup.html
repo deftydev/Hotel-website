@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Sign up for a free account</h2>
+  <p class="lead">Select below the type of account you want to create</p>
+  <a href="{% url 'customer_signup' %}" class="btn btn-info btn-lg" role="button">I'm a customer</a>
+  <a href="{% url 'admin_signup' %}"><button class="btn btn-success">ADMIN ACCOUNT</button></a>
+  <div class="lead">admin and customer signup both are given here just to show the <kbd>functionality</kbd> </div>
+{% endblock %}
